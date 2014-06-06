@@ -57,7 +57,7 @@ if (dpkg-query -W -f='${Status}'  libdumb1-dev 2>/dev/null | grep -c "ok install
 	dep_7=1
 fi
 result=$(($dep_1+$dep_2+$dep_3+$dep_4+$dep_5+$dep_6+$dep_7 ))
-sleep 0.25
+sleep 1
 
 if  ! [ $result -eq 7 ] ; 
 	then
@@ -83,6 +83,7 @@ echo -e "\nChecking if java is installed...\n"
 sleep 1
 if ! (  java -version ); then
 	echo -e "\nJava is required to use LateralGM.\nWould you like to install OpenJDK?"
+	sleep 0.5
 	select result in "Yes" "No"
 	do
 	    case $result in
@@ -97,11 +98,12 @@ if ! (  java -version ); then
 		*) echo invalid option;;
 	    esac
 	done
-   else echo -e "\nJava is already installed. Proceeding."
+   else echo -e "\nJava is already installed. Proceeding." 
 fi
 
-echo -e "\nWould you like to install libcurl to use network functions?"
 
+sleep 1
+echo -e "\nWould you like to install libcurl to use network functions?"
 select result in "Yes" "No"
 do
     case $result in
@@ -115,12 +117,9 @@ do
 	*) echo invalid option;;
     esac
 done
-sleep 0.25
 
 
-
-
-sleep 0.25
+sleep 1
 if [ -d $(pwd)/enigma-dev/ ]; then
 	echo -e "\nenigma-dev already exists. Pulling from Git..."
 	sleep 1
