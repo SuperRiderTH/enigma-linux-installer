@@ -99,6 +99,27 @@ if ! (  java -version ); then
 	done
    else echo -e "\nJava is already installed. Proceeding."
 fi
+
+echo -e "\nWould you like to install libcurl to use network functions?"
+
+select result in "Yes" "No"
+do
+    case $result in
+	"Yes")
+	    sudo apt-get install libcurl4-openssl-dev
+	break
+	    ;;
+	"No")
+	break
+	    ;;
+	*) echo invalid option;;
+    esac
+done
+sleep 0.25
+
+
+
+
 sleep 0.25
 if [ -d $(pwd)/enigma-dev/ ]; then
 	echo -e "\nenigma-dev already exists. Pulling from Git..."
