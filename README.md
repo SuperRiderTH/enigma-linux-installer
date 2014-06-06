@@ -1,4 +1,6 @@
-enigma-linux-installer
+ENIGMA Linux Installer
 ======================
 
-A shell script that installs the free open source development environment ENIGMA on Linux.
+A shell script that installs the open source cross-platform game development environment ENIGMA on Linux.
+
+http://enigma-dev.org/
