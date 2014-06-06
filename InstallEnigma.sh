@@ -83,7 +83,6 @@ echo -e "\nChecking if java is installed...\n"
 sleep 1
 if ! (  java -version ); then
 	echo -e "\nJava is required to use LateralGM.\nWould you like to install OpenJDK?"
-	sleep 0.5
 	select result in "Yes" "No"
 	do
 	    case $result in
