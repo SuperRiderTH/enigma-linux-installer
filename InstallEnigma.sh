@@ -119,35 +119,68 @@ done
 
 
 sleep 1
+
+if ! [ -d $(pwd)/ENIGMA/ ]; then
+	mkdir ENIGMA
+	cd ENIGMA
+	else 
+	cd ENIGMA 
+fi
+
+sleep 0.5
+
+edir=$(pwd)
+
+sleep 0.5
+
 if [ -d $(pwd)/enigma-dev/ ]; then
-	echo -e "\nenigma-dev already exists. Pulling from Git..."
+	echo -e "\nenigma-dev already exists. Not re-installing..."
 	sleep 1
 	cd enigma-dev
-	git pull
-	cd $odir
-fi
-if ! [ -d $(pwd)/enigma-dev/ ]; then
+	
+	else
+	
 	echo -e "\nDownloading ENIGMA from Git to enigma-dev...\n"
 	sleep 1
 	git clone git://github.com/enigma-dev/enigma-dev.git
+	echo -e "\nRunning install.py...\n"
+	sleep 1
+	cd enigma-dev
+	python install.py
 fi
 
+cd $edir
 
 
-echo -e "\nRunning install.py...\n"
-sleep 1
 
+
+/bin/cat <<EOM > LaunchEnigma.sh
+#!/bin/bash
+odir=$(pwd)
+echo -e "Checking GitHub for updates...\n"
 cd enigma-dev
-python install.py
-cd $odir
+sleep 1
+if ! ( git pull 2>/dev/null | grep -c "Already up-to-date." ); then
+	echo -e "\nenigma-dev updated. Running install.py...\n"
+	sleep 1
+	python install.py
+	sleep 1
+	echo -e "\n"
+	else echo -e "\nENIGMA is up-to-date.\n"
+fi
+
+java -jar lateralgm.jar
+EOM
+
+chmod 777 $(pwd)/LaunchEnigma.sh
 
 /bin/cat <<EOM > ENIGMA.desktop
 [Desktop Entry]
 Version=1.0
 Name=ENIGMA
 Comment=The free open source cross-platform game development environment.
-Exec= java -jar lateralgm.jar
-Path=$(pwd)/enigma-dev/
+Exec= ./LaunchEnigma.sh
+Path=$(pwd)
 Icon=$(pwd)/enigma-dev/Resources/logo.png
 Terminal=true
 Type=Application
@@ -155,3 +188,8 @@ Categories=Application;Development;Programming;
 EOM
 
 echo -e "\nENIGMA has been installed successfully.\n\nA desktop shortcut has been created in $(pwd)"
+
+
+
+
+
