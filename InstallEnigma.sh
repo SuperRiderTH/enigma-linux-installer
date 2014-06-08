@@ -182,9 +182,9 @@ Comment=The free open source cross-platform game development environment.
 Exec= ./LaunchEnigma.sh
 Path=$(pwd)
 Icon=$(pwd)/enigma-dev/Resources/logo.png
-Terminal=true
+Terminal=false
 Type=Application
-Categories=Application;Development;Programming;
+Categories=Application;Programming;
 EOM
 
 echo -e "\nENIGMA has been installed successfully.\n\nA desktop shortcut has been created in $(pwd)"
