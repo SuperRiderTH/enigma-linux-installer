@@ -1,5 +1,6 @@
 #!/bin/bash
-#ENIGMA Shell Script Installer
+# ENIGMA Shell Script Installer
+# Updated for Ubuntu 16.04.
 
 odir=$(pwd)
 dep_1=0
@@ -21,7 +22,7 @@ if ! (dpkg-query -W -f='${Status}'  git  2>/dev/null | grep -c "ok installed" );
 	do
 	    case $result in
 		"Yes")
-		    sudo apt-get install git
+		    sudo apt install git
 		break
 		    ;;
 		"No")
@@ -66,7 +67,7 @@ if  ! [ $result -eq 7 ] ;
 	do
 	    case $result in
 		"Yes")
-		    sudo apt-get install g++ zlib1g-dev libglu1-mesa-dev libalure-dev libvorbisfile3 libvorbis-dev libdumb1-dev
+		    sudo apt install g++ zlib1g-dev libglu1-mesa-dev libalure-dev libvorbisfile3 libvorbis-dev libdumb1-dev
 		break
 		    ;;
 		"No")
@@ -87,7 +88,7 @@ if ! (  java -version ); then
 	do
 	    case $result in
 		"Yes")
-		    sudo apt-get install openjdk-7-jre
+		    sudo apt install openjdk-8-jre
 		break
 		    ;;
 		"No")
@@ -107,7 +108,7 @@ select result in "Yes" "No"
 do
     case $result in
 	"Yes")
-	    sudo apt-get install libcurl4-openssl-dev
+	    sudo apt install libcurl4-openssl-dev
 	break
 	    ;;
 	"No")
@@ -120,11 +121,11 @@ done
 
 sleep 1
 
-if ! [ -d $(pwd)/ENIGMA/ ]; then
-	mkdir ENIGMA
-	cd ENIGMA
+if ! [ -d ~/.ENIGMA/ ]; then
+	mkdir ~/.ENIGMA
+	cd ~/.ENIGMA
 	else 
-	cd ENIGMA 
+	cd ~/.ENIGMA 
 fi
 
 sleep 0.5
@@ -174,12 +175,12 @@ EOM
 
 chmod 777 $(pwd)/LaunchEnigma.sh
 
-/bin/cat <<EOM > ENIGMA.desktop
+/bin/cat <<EOM > ~/.local/share/applications/ENIGMA.desktop
 [Desktop Entry]
 Version=1.0
 Name=ENIGMA
 Comment=The free open source cross-platform game development environment.
-Exec= ./LaunchEnigma.sh
+Exec= $(pwd)/LaunchEnigma.sh
 Path=$(pwd)
 Icon=$(pwd)/enigma-dev/Resources/logo.png
 Terminal=false
@@ -187,9 +188,8 @@ Type=Application
 Categories=Application;Programming;
 EOM
 
-echo -e "\nENIGMA has been installed successfully.\n\nA desktop shortcut has been created in $(pwd)"
+chmod 777 ~/.local/share/applications/ENIGMA.desktop
+update-desktop-database ~/.local/share/applications/
 
-
-
-
+echo -e "\nENIGMA has been installed successfully.\n\nA desktop shortcut has been created in ~/.local/share/applications/ENIGMA.desktop"
 
