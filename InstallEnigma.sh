@@ -1,6 +1,6 @@
 #!/bin/bash
 # ENIGMA Shell Script Installer
-# Updated for Ubuntu 16.04.
+# Updated for Ubuntu 16.04+.
 
 odir=$(pwd)
 dep_1=0
@@ -10,6 +10,7 @@ dep_4=0
 dep_5=0
 dep_6=0
 dep_7=0
+dep_8=0
 
 clear
 echo  "Welcome to the ENIGMA Development Environment Installer for Ubuntu."
@@ -57,17 +58,20 @@ fi
 if (dpkg-query -W -f='${Status}'  libdumb1-dev 2>/dev/null | grep -c "ok installed") then 
 	dep_7=1
 fi
-result=$(($dep_1+$dep_2+$dep_3+$dep_4+$dep_5+$dep_6+$dep_7 ))
+if (dpkg-query -W -f='${Status}'  make 2>/dev/null | grep -c "ok installed") then 
+	dep_8=1
+fi
+result=$(($dep_1+$dep_2+$dep_3+$dep_4+$dep_5+$dep_6+$dep_7+$dep_8 ))
 sleep 1
 
-if  ! [ $result -eq 7 ] ; 
+if  ! [ $result -eq 8 ] ; 
 	then
 	echo -e "\nDependencies are not met. \nWould you like to install them?"
 	select result in "Yes" "No"
 	do
 	    case $result in
 		"Yes")
-		    sudo apt install g++ zlib1g-dev libglu1-mesa-dev libalure-dev libvorbisfile3 libvorbis-dev libdumb1-dev
+		    sudo apt install make g++ zlib1g-dev libglu1-mesa-dev libalure-dev libvorbisfile3 libvorbis-dev libdumb1-dev
 		break
 		    ;;
 		"No")
@@ -173,7 +177,7 @@ fi
 java -jar lateralgm.jar
 EOM
 
-chmod 777 $(pwd)/LaunchEnigma.sh
+chmod +x $(pwd)/LaunchEnigma.sh
 
 /bin/cat <<EOM > ~/.local/share/applications/ENIGMA.desktop
 [Desktop Entry]
@@ -188,7 +192,7 @@ Type=Application
 Categories=Application;Programming;
 EOM
 
-chmod 777 ~/.local/share/applications/ENIGMA.desktop
+chmod +x ~/.local/share/applications/ENIGMA.desktop
 update-desktop-database ~/.local/share/applications/
 
 echo -e "\nENIGMA has been installed successfully.\n\nA desktop shortcut has been created in ~/.local/share/applications/ENIGMA.desktop"
