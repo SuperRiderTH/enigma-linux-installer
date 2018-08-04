@@ -11,6 +11,7 @@ dep_5=0
 dep_6=0
 dep_7=0
 dep_8=0
+dep_9=0
 
 clear
 echo  "Welcome to the ENIGMA Development Environment Installer for Ubuntu."
@@ -61,10 +62,14 @@ fi
 if (dpkg-query -W -f='${Status}'  make 2>/dev/null | grep -c "ok installed") then 
 	dep_8=1
 fi
-result=$(($dep_1+$dep_2+$dep_3+$dep_4+$dep_5+$dep_6+$dep_7+$dep_8 ))
+if (dpkg-query -W -f='${Status}'  libglew-dev 2>/dev/null | grep -c "ok installed") then 
+	dep_9=1
+fi
+
+result=$(( $dep_1+$dep_2+$dep_3+$dep_4+$dep_5+$dep_6+$dep_7+$dep_8+$dep_9 ))
 sleep 1
 
-if  ! [ $result -eq 8 ] ; 
+if  ! [ $result -eq 9 ] ; 
 	then
 	echo -e "\nDependencies are not met. \nWould you like to install them?"
 	select result in "Yes" "No"
